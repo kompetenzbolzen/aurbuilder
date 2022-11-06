@@ -6,7 +6,7 @@ mkdir -p testrun/pkgout
 
 ./build.sh
 
-docker run --name archpkg-test --env PACKAGE_NAME=python-octodns \
+docker run --name archpkg-test --env PACKAGE_NAME=minipro \
 	-v $(pwd)/testrun/db:/db -v $(pwd)/testrun/pkgout:/pkgout \
 	archpkg
 

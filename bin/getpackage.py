@@ -17,8 +17,18 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
+# TODO we should actually use version limits instead
+def sanitize_name(_name):
+    _name = _name.replace('<','=')
+    _name = _name.replace('>','=')
+
+    return _name.split('=')[0]
+
+
 # TODO: Don't just take the first one. prioritize maybe Votes, version, git, bin, ...
 def aur_search_package(_name):
+    _name = sanitize_name(_name)
+
     data = requests.get(f'https://aur.archlinux.org/rpc/?v=5&type=search&by=name&arg={_name}').json()
 
     for r in data['results']:
@@ -26,13 +36,17 @@ def aur_search_package(_name):
         if p is None:
             continue
 
-        if _name in p['Provides']:
-            return p
+        if 'Provides' in p:
+            for prov in p['Provides']:
+                if sanitize_name(prov) == _name:
+                    return p
 
     return None
 
 
 def aur_get_package(_name):
+    _name = sanitize_name(_name)
+
     data = requests.get(f'https://aur.archlinux.org/rpc/?v=5&type=info&arg={_name}').json()
 
     if len(data['results']) != 1:
@@ -41,24 +55,47 @@ def aur_get_package(_name):
     return data['results'][0]
 
 
-def repo_get_package(_name):
+def repo_search_package(_name):
+    _name = sanitize_name(_name)
+
+    data = requests.get(f'https://archlinux.org/packages/search/json/?q={_name}').json()
+    for r in data['results']:
+        p = repo_get_package(r['pkgname'], False)
+        if p is None:
+            continue
+
+        if 'provides' in p:
+            for prov in p['provides']:
+                if sanitize_name(prov) == _name:
+                    return p
+
+    return None
+
+
+def repo_get_package(_name, _search=True):
+    _name = sanitize_name(_name)
+
     data = requests.get(f'https://archlinux.org/packages/search/json/?name={_name}').json()
 
     if len(data['results']) != 1:
-        return None
+        if _search:
+            return repo_search_package(_name)
+        else:
+            return None
 
     return data['results'][0]
 
 
-# TODO: We should also search for package provides!
 def build_aur_dependencies(_pkgname):
+    _pkgname = sanitize_name(_pkgname)
+
     ret = []
 
     maybe_deps = aur_get_package(_pkgname)
     if maybe_deps is None:
         eprint(f'WARNING: {_pkgname} Was not found in AUR!')
         return []
-    elif 'Dependencies' not in maybe_deps:
+    elif 'Depends' not in maybe_deps:
         return []
 
     deps = maybe_deps['Depends']
@@ -73,7 +110,8 @@ def build_aur_dependencies(_pkgname):
             continue
 
         ret.append(dep)
-        ret += build_aur_dependencies(dep)
+        ret.insert(0,dep)
+        ret = build_aur_dependencies(dep) + ret
 
     return ret
 
@@ -92,11 +130,6 @@ if maybe_base_pkg_info is None:
     exit(1)
 base_pkg_info = maybe_base_pkg_info
 
-TO_BUILD[base_pkg_info['Name']] = {
-        'version':base_pkg_info['Version'],
-        'base':base_pkg_info['PackageBase']
-        }
-
 aur_deps = build_aur_dependencies(PKG)
 
 for dep in aur_deps:
@@ -111,5 +144,11 @@ for dep in aur_deps:
             'version':pkg['Version'],
             'base':pkg['PackageBase']
         }
+
+TO_BUILD[base_pkg_info['Name']] = {
+        'version':base_pkg_info['Version'],
+        'base':base_pkg_info['PackageBase']
+        }
+
 for e in TO_BUILD:
     print(f'{e}\t{TO_BUILD[e]["base"]}\t{TO_BUILD[e]["version"]}')
