@@ -1,9 +1,10 @@
 FROM archlinux:base-devel
 
-ARG AUR_RPC_BASE_URL="https://aur.archlinux.org/rpc/"
-ARG PACKAGE_NAME=""
-ARG BUILD_ALL_AUR_DEPENDS="no"
-ARG PACKAGER="John Doe <john@doe.com>"
+ENV PACKAGE_NAME=""
+ENV PACKAGER="John Doe <John.Doe@example.com>"
+ENV ARCH="x86_64"
+ENV FORCE_REBUILD="no"
+ENV CHOWM=""
 
 RUN pacman --noconfirm -Syu
 RUN pacman --noconfirm -S git sudo
@@ -13,9 +14,8 @@ RUN useradd -G sudo -d /workdir -m aurbuilder
 COPY --chown=root:root sudoers /etc/sudoers
 
 
-RUN mkdir /pkgout /db
+RUN mkdir /pkgout
 VOLUME /pkgout
-VOLUME /db
 
 RUN pacman --noconfirm -S python python-requests
 
