@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
+# Create a list of package names required to build supplied AUR package.
+# packages present in the official repos will be ignored.
 
+# relevant docs:
 # AUR API:
 # https://wiki.archlinux.org/title/Aurweb_RPC_interface
 # Package API:
@@ -132,8 +135,10 @@ base_pkg_info = maybe_base_pkg_info
 
 aur_deps = build_aur_dependencies(PKG)
 
+# We rely on the rigth order here.
+# The dependency must be before the package that depends on it,
+# otherwise makepkg will fail
 for dep in aur_deps:
-
     pkg = aur_get_package(dep)
 
     if pkg is None:

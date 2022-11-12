@@ -4,7 +4,7 @@ ENV PACKAGE_NAME=""
 ENV PACKAGER="John Doe <John.Doe@example.com>"
 ENV ARCH="x86_64"
 ENV FORCE_REBUILD="no"
-ENV CHOWM=""
+ENV CHOWN=""
 
 RUN pacman --noconfirm -Syu
 RUN pacman --noconfirm -S git sudo
