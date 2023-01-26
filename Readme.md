@@ -2,6 +2,8 @@
 
 Docker base AUR Package builder for local arch repo
 
+Packages are put in `/srv/arch/`
+
 ## Workflow
 
 Provided: Package name
