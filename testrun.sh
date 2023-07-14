@@ -1,15 +1,18 @@
 #!/bin/bash
 
+DOCKER=podman
+
 mkdir -p testrun/pkgout
 
 CHOWN_TO="$USER"
 OUTPUT="$(pwd)/testrun/pkgout"
 
-./build.sh
+#./build.sh
 
-docker run --name archpkg-test --env PACKAGE_NAME=minipro \
+#--userns=nomap
+$DOCKER run --userns=host --name archpkg-test --env PACKAGE_NAME=minipro \
 	--env FORCE_REBUILD=yes --env CHOWN="$(id -u "$CHOWN_TO"):$(id -g "$CHOWN_TO")" \
-	-v "$OUTPUT:/pkgout" \
+	-v "$OUTPUT:/pkgout:z" \
 	archpkg
 
-docker rm archpkg-test
+$DOCKER rm archpkg-test

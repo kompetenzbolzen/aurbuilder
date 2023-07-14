@@ -2,7 +2,22 @@
 
 Docker base AUR Package builder for local arch repo
 
-Packages are put in `/srv/arch/`
+## Locations
+
+* Output, db and webroot `/srv/arch/`
+* Dockerfile and scripts for the Container ``
+* Scripts ``
+
+## nginx
+
+Config in `nginx.conf`
+
+```nginx
+# in http block
+
+include /etc/nginx/arch.conf;
+#include /etc/nginx/arch_ssl.conf;
+```
 
 ## Workflow
 

@@ -3,6 +3,8 @@
 echo "BUILDING: $PACKAGE_NAME"
 echo "PACKAGER: $PACKAGER"
 
+INTERMED_DEST="/pkgdest"
+
 cd /workdir || exit 1
 
 while read -r NAME BASE VER _; do
@@ -15,12 +17,13 @@ while read -r NAME BASE VER _; do
 		continue
 	fi
 
-	sudo -u aurbuilder git clone "https://aur.archlinux.org/$BASE.git" "$BASE"
+	sudo --user=aurbuilder \
+		git clone "https://aur.archlinux.org/$BASE.git" "$BASE"
 	cd "$BASE" || exit 1
 
-	sudo -u aurbuilder CARCH="$ARCH" PACKAGER="$PACKAGER" PKGDEST="/pkgout/" \
+	sudo -u aurbuilder CARCH="$ARCH" PACKAGER="$PACKAGER" PKGDEST="$INTERMED_DEST" \
 		makepkg --force --syncdeps --noconfirm --install
 
-	#cp ./*.pkg.tar.zst /pkgout
-	test -n "$CHOWN" && sudo chown "$CHOWN" "/pkgout/${OUTNAME}"*
+	cp --no-preserve=ownership "$INTERMED_DEST/"*.pkg.tar.zst /pkgout
+	#test -n "$CHOWN" && sudo chown "$CHOWN" "/pkgout/${OUTNAME}"*
 done <<< "$(getpackage.py "$PACKAGE_NAME")"
