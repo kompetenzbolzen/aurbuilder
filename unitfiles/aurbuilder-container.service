@@ -1,0 +1,11 @@
+[Unit]
+Description=aurbuilder Container build job
+
+[Service]
+Type=simple
+User=aurbuilder
+Group=aurbuilder
+ExecStart=/usr/lib/aurbuilder/build_container.sh
+Restart=no
+StartLimitInterval=10min
+StartLimitBurst=8
