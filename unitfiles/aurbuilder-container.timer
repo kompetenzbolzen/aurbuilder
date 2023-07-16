@@ -1,0 +1,9 @@
+[Unit]
+Description=Time for aurbuilder container rebuild
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
