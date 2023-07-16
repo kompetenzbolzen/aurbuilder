@@ -14,7 +14,8 @@ while read -r NAME BASE VER _; do
 	# Only build when needed
 	if [ ! "$FORCE_REBUILD" = "yes" ] && compgen -G "/pkgout/${OUTNAME}*"; then
 		echo "$NAME $VER ($ARCH) is already built. Skipping."
-		# TODO: install the package! it is a dependency!
+		# TODO: We are only skipping the main package. We will still be rebuilding all deps
+		# if the main package changes. Also this ignores Updates in dependencies.
 		continue
 	fi
 
