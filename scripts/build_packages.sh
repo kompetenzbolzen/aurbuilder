@@ -29,7 +29,8 @@ while read -r LINE; do
 		--env FORCE_REBUILD="$FORCE_REBUILD" \
 		--env CHOWN="$(id -u "$CHOWN_TO"):$(id -g "$CHOWN_TO")" \
 		-v "$OUTPUT:/pkgout:z" \
-		aurbuilder \
+		aurbuilder
+
 	RET=$?
 	$PODMAN rm "$CONT_NAME"
 

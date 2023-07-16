@@ -1,0 +1,18 @@
+pre_install() {
+	pkgname=aurbuilder
+
+	if ! id -u $pkgname > /dev/null 2>&1; then
+		useradd -r -U $pkgname -d /var/lib/$pkgname -m -s /usr/bin/nologin
+		uid=$(id -u $pkgname)
+		gid=$(id -g $pkgname)
+
+		usermod --add-subuids "${uid}000-${uid}999" \
+			--add-subgids "${gid}000-${gid}999" \
+			$pkgname
+
+		loginctl enable-linger "$uid"
+	fi
+
+	mkdir -p /srv/pkg
+	chown $pkgname:$pkgname /srv/pkg
+}
