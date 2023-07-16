@@ -1,12 +1,27 @@
 # AUR PKG Builder
 
-Docker base AUR Package builder for local arch repo
+Automated AUR package buildsystem.
 
 
+## Installation
+
+aurbuilder is designed to be run on Arch Linux.
+Use the `PKGBUILD` in `pkgbuild/` to install with `makepkg -si`.
+
+Enable the systemd timers to activate the automated builds:
+`systemctl enable aurbuilder-container.timer` and
+`systemctl enable aurbuilder-package.timer`.
+
+## Usage
+
+Add packages to build in `/etc/aurbuilder/packages` (one per line).
+
+Builds can be manually triggered by `systemctl start aurbuilder-package.service`.
+This requires a `aurbuilder-container.service` run to have completed beforehand.
 
 ## Locations
 
-| localtion | description |
+| location | description |
 | --- | --- |
 | `/srv/pkg` | Package output directory |
 | `/etc/aurbuilder` | Configuration files |
@@ -14,30 +29,3 @@ Docker base AUR Package builder for local arch repo
 | `/usr/share/aurbuilder` | Container buildfiles |
 | `/usr/lib/aurbuilder` | Executables |
 | `/usr/lib/systemd/system` | Systemd Unitfiles |
-
-* Output, db and webroot `/srv/pkg/`
-* Dockerfile and scripts for the Container ``
-* Scripts ``
-
-## nginx
-
-Config in `nginx.conf`
-
-```nginx
-# in http block
-
-include /etc/nginx/arch.conf;
-#include /etc/nginx/arch_ssl.conf;
-```
-
-## Workflow
-
-Provided: Package name
-
-* search AUR for package (exact match only!)
-* build dependency tree (also search with provided, then there is no exact match)
-* prioritize packages in official repos. Don't build them.
-* Add all AUR-PKGs in tree to to-build-list
-* MAKEPKG ur way thourhg
-
-

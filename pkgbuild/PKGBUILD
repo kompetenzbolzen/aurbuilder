@@ -11,7 +11,7 @@ depends=( podman bash )
 makedepends=()
 optdepends=()
 source=(git+$url.git)
-sha256sums=( SKIP ) #autofill using updpkgsums
+sha256sums=( SKIP )
 install=$pkgname.install
 
 pkgver() {
@@ -29,6 +29,4 @@ package() {
 	install -Dt $pkgdir/usr/lib/aurbuilder scripts/*
 	install -Dt $pkgdir/usr/lib/systemd/system unitfiles/*
 	install -Dt $pkgdir/etc/aurbuilder configs/*
-
 }
-
