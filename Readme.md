@@ -2,9 +2,20 @@
 
 Docker base AUR Package builder for local arch repo
 
+
+
 ## Locations
 
-* Output, db and webroot `/srv/arch/`
+| localtion | description |
+| --- | --- |
+| `/srv/pkg` | Package output directory |
+| `/etc/aurbuilder` | Configuration files |
+| `/var/lib/aurbuilder` | Homedir of user (for podman storage) |
+| `/usr/share/aurbuilder` | Container buildfiles |
+| `/usr/lib/aurbuilder` | Executables |
+| `/usr/lib/systemd/system` | Systemd Unitfiles |
+
+* Output, db and webroot `/srv/pkg/`
 * Dockerfile and scripts for the Container ``
 * Scripts ``
 

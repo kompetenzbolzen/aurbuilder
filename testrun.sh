@@ -9,10 +9,9 @@ OUTPUT="$(pwd)/testrun/pkgout"
 
 #./build.sh
 
-#--userns=nomap
 $DOCKER run --userns=host --name archpkg-test --env PACKAGE_NAME=minipro \
 	--env FORCE_REBUILD=yes --env CHOWN="$(id -u "$CHOWN_TO"):$(id -g "$CHOWN_TO")" \
 	-v "$OUTPUT:/pkgout:z" \
-	archpkg
+	aurbuilder
 
 $DOCKER rm archpkg-test
