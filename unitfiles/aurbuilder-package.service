@@ -9,3 +9,4 @@ ExecStart=/usr/lib/aurbuilder/build_packages.sh
 Restart=no
 StartLimitInterval=10min
 StartLimitBurst=8
+OnSuccess=aurbuilder-repo.service

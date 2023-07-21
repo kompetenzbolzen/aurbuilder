@@ -1,0 +1,11 @@
+[Unit]
+Description=aurbuilder Update repository database
+
+[Service]
+Type=simple
+User=aurbuilder
+Group=aurbuilder
+ExecStart=/usr/lib/aurbuilder/update_repo.sh
+Restart=no
+StartLimitInterval=10min
+StartLimitBurst=8
