@@ -1,0 +1,10 @@
+# vi: ft=sh
+
+# Force rebuild of every package, even if it already exists
+#FORCE_REBUILD=no
+
+# Packager identification
+#PACKAGER="John Doe <John.Doe@example.com>"
+
+# name of the repository. This name has to be used in pacman.conf
+#REPONAME="repo"

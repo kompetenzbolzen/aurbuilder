@@ -13,6 +13,10 @@ optdepends=()
 source=(git+$url.git)
 sha256sums=( SKIP )
 install=$pkgname.install
+backup=(
+	etc/aurbuilder/packages
+	etc/aurbuilder/config
+)
 
 pkgver() {
 	date +%Y%m%d

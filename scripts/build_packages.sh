@@ -1,11 +1,14 @@
 #!/bin/bash
 
+test -f /etc/aurbuilder/config && source /etc/aurbuilder/config
+
 PODMAN=$(which podman)
 
 CONFFILE=${CONFFILE:-/etc/aurbuilder/packages}
 OUTPUT=${OUTPUT:-/srv/pkg/}
 FORCE_REBUILD=${FORCE_REBUILD:-no}
 CHOWN_TO=${CHOWN_TO:-$USER}
+PACKAGER=${PACKAGER:-"John Doe <John.Doe@example.com>"}
 
 if ! ($PODMAN image list | grep aurbuilder > /dev/null); then
 	echo Container image \"aurbuilder\" was not found. Was it built?
@@ -28,6 +31,7 @@ while read -r LINE; do
 		--env PACKAGE_NAME="$LINE" \
 		--env FORCE_REBUILD="$FORCE_REBUILD" \
 		--env CHOWN="$(id -u "$CHOWN_TO"):$(id -g "$CHOWN_TO")" \
+		--env PACKAGER="$PACKAGER" \
 		-v "$OUTPUT:/pkgout:z" \
 		aurbuilder
 
