@@ -1,6 +1,10 @@
 # AUR PKG Builder
 
-Automated AUR package buildsystem built on Podman capable of resolving AUR dependecies.
+Automated *Arch-Linux User Repository* package buildsystem built on Podman.
+
+**CAUTION:** Automatically building AUR packages is inherently **dangerous**.
+You are de-facto granting the submitter *arbitrary code execution* on the build machine as well as the users system.
+For more information, consult the [Arch Wiki](https://wiki.archlinux.org/title/Arch_User_Repository).
 
 ## Usage
 
@@ -90,6 +94,8 @@ I would strongly recommend against using aurbuilder in any mission critical capa
 
 * Package and repo signing with GPG
 * Better repo management, autodelete and cleanups
+* Allow specifying a git repo instead of a pkgname for external/custom packages
+* warn / protect from submitter changes and orphan packages
 
 ## Locations
 
