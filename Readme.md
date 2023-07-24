@@ -101,3 +101,8 @@ I would strongly recommend against using aurbuilder in any mission critical capa
 | `/usr/share/aurbuilder` | Container buildfiles and nginx config |
 | `/usr/lib/aurbuilder` | Executables |
 | `/usr/lib/systemd/system` | Systemd Unitfiles |
+
+## License
+
+This project is licensed under the MIT License.
+See file `LICENSE` for details.
