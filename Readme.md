@@ -60,6 +60,28 @@ Enable the systemd timers to activate the automated builds:
 `systemctl enable aurbuilder-container.timer` and
 `systemctl enable aurbuilder-package.timer`.
 
+### nginx
+
+To access the repository conveniently from remote hosts, a webserver is needed.
+aurbuilder comes with a sensible default configuration in `/usr/share/aurbuilder/nginx/aurbuilder.conf`.
+
+It has to be included in a `location` block:
+
+```nginx
+# /etc/nginx/nginx.conf
+
+http {
+    # ...
+    server {
+        # ...
+
+        location /mycoolrepo {
+            include /usr/share/aurbuilder/nginx/aurbuilder.conf;
+        }
+    }
+}
+```
+
 ## Locations
 
 | location | description |
@@ -67,6 +89,6 @@ Enable the systemd timers to activate the automated builds:
 | `/srv/pkg` | Package output directory |
 | `/etc/aurbuilder` | Configuration files |
 | `/var/lib/aurbuilder` | Homedir of user (for podman storage) |
-| `/usr/share/aurbuilder` | Container buildfiles |
+| `/usr/share/aurbuilder` | Container buildfiles and nginx config |
 | `/usr/lib/aurbuilder` | Executables |
 | `/usr/lib/systemd/system` | Systemd Unitfiles |
