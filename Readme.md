@@ -82,6 +82,15 @@ http {
 }
 ```
 
+## Roadmap
+
+aurbuilder is very bare-bones.
+There are several features and improvements that I plan to add to improve security and ease of use.
+I would strongly recommend against using aurbuilder in any mission critical capacity.
+
+* Package and repo signing with GPG
+* Better repo management, autodelete and cleanups
+
 ## Locations
 
 | location | description |
