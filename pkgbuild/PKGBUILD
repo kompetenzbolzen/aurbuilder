@@ -28,8 +28,11 @@ build() {
 
 package() {
 	cd "$srcdir/$pkgname"
-	install -Dt $pkgdir/usr/share/aurbuilder container/{Dockerfile,sudoers}
-	install -Dt $pkgdir/usr/share/aurbuilder/bin container/bin/*
+	install -Dt $pkgdir/usr/share/aurbuilder/container container/{Dockerfile,sudoers}
+	install -Dt $pkgdir/usr/share/aurbuilder/container/bin container/bin/*
+
+	install -Dt $pkgdir/usr/share/aurbuilder/nginx nginx/*
+
 	install -Dt $pkgdir/usr/lib/aurbuilder scripts/*
 	install -Dt $pkgdir/usr/lib/systemd/system unitfiles/*
 	install -Dt $pkgdir/etc/aurbuilder configs/*
