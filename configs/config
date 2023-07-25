@@ -7,4 +7,4 @@
 #PACKAGER="John Doe <John.Doe@example.com>"
 
 # name of the repository. This name has to be used in pacman.conf
-#REPONAME="repo"
+#REPONAME="aurbuilder"

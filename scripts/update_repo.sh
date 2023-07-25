@@ -3,7 +3,7 @@
 test -f /etc/aurbuilder/config && source /etc/aurbuilder/config
 
 OUTPUT=${OUTPUT:-/srv/pkg/}
-REPONAME=${REPONAME:-repo}
+REPONAME=${REPONAME:-aurbuilder}
 
 repo-add -p -R "$OUTPUT/$REPONAME.db.tar.gz" "$OUTPUT/"*.pkg.* || exit 1
-rm -f "$OUTDIR/"*.old
+rm -f "$OUTPUT/"*.old
